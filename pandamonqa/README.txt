@@ -23,15 +23,36 @@ You can install them either on the system level (yum install <package>), or with
 
 3] run the suite
 # cd $WORKDIR/panda-mon-qa/pandamonqa/run
-# python run_twill_clicker.py bigpanda_root
+# python run_twill_clicker.py   bigpanda_root
+	... to run a single site smoke test
 or 
 # python run_twill_clicker.py
-
+	... to run smoke tests for all registered sites
+or 
+# python run_twill_clicker.py -hp  bigpanda_root
+	... to run a smoke test only against the homepage of this particular site
+or 
+# python run_twill_clicker.py -hp
+	... to run a smoke test only against the homepage of all the sites
 
 ###
 ### Configure the suite
 ###
-1] Site instance configuration
+All the configuration is done via .cfg files, you do not need to edit .py files. 
+
+
+1] Register a new site into the list
+in $WORKDIR/panda-mon-qa/pandamonqa/settings/settings-qasuite-sites.cfg
+Add a section.
+Add SITENAME ... string ID which you call with run_twill_clicker.py.
+ADD SITEDOMAIN ... string which will be reflected in the list-URLs config file (see below).
+Example:
+[bigpanda_root]
+SITENAME = bigpanda_root
+SITEDOMAIN = bigpanda.cern.ch
+
+
+2] Site instance configuration
 e.g. in $WORKDIR/panda-mon-qa/pandamonqa/settings/settings-bigpanda_root.cfg
 file basename has expected pattern 'settings-%(SITENAME)s.cfg'
 	where SITENAME is an entry in run_twill_clicker.SITES (can be arg for run_twill_clicker).
@@ -44,7 +65,7 @@ PAGE_VERSION ... version string as a part of the page source, e.g. 0.0.1. As of 
 PAGE_BROWSER ... User-Agent browser, e.g. Chrome or Firefox
 
 
-2] Site URLs list configuration
+3] Site URLs list configuration
 e.g. in $WORKDIR/panda-mon-qa/pandamonqa/settings/URL-list/list-URLs_bigpanda_root.bigpanda.cern.ch.cfg
 file basename has expected pattern 'list-URLS_%(SITENAME)s.%(SITEDOMAIN)s.cfg'
 	where SITENAME is an entry in run_twill_clicker.SITES (can be arg for run_twill_clicker),

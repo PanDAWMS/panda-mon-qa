@@ -1,13 +1,33 @@
 ###   
 ###   Do not run this script!
 ###   
+import ConfigParser
 import os
 from qasuite.suite import QASuite
 from run.version import QUICK_PAGE_VERSION
 import run
 
+
 DIR_SETTINGS_CLICKER = os.path.abspath(\
     os.path.join(os.path.dirname(os.path.dirname(run.__file__)), "settings"))
+
+SITESDICT = {}
+WEBSITE_BASE_URL = u'bigpanda.cern.ch'
+
+def configure_qasuite(config_file):
+    """
+        configure: Read configuration from config_file.
+        :param config_file: config file in the ini format
+    """
+    config = ConfigParser.SafeConfigParser()
+    config.read(config_file)
+    ### read list of sites from the config file
+    sections = config.sections()
+    for section in sections:
+        SITENAME = config.get(section, 'SITENAME')
+        SITEDOMAIN = config.get(section, 'SITEDOMAIN')
+        SITESDICT[SITENAME] = SITEDOMAIN
+    return SITESDICT
 
 
 def clicker_generic(config_file):
@@ -50,5 +70,5 @@ def clicker_generic_SITENAME_WHOLE(SITENAME, SITEDOMAIN):
 
 test_hp_only = clicker_generic_SITENAME_HP
 test_whole_site = clicker_generic_SITENAME_WHOLE
-
+SITES = configure_qasuite('%s/settings-qasuite-sites.cfg' % (DIR_SETTINGS_CLICKER))
 

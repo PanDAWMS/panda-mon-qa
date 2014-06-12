@@ -34,7 +34,6 @@ class QASuite(object):
     ALL_CLICKABLE_ANCHORS = []
     PAGE_ADDRESS = ''
     PAGE_BROWSER = ''
-    PAGE_ADDRESS_PROD = ''
     PAGE_VERSION = ''
 #    STATIC_LIST_ADDRESS = ''
 #    STATIC_LIST_FILE = ''
@@ -53,7 +52,7 @@ class QASuite(object):
         config = ConfigParser.SafeConfigParser()
         config.read(config_file)
 
-        self.PAGE_ADDRESS_PROD = config.get('AddressInfo', 'page_address')
+        self.PAGE_ADDRESS = config.get('AddressInfo', 'page_address')
         self.PAGE_BROWSER = config.get('BrowserInfo', 'page_browser')
         self.PAGE_VERSION = config.get('VersionInfo', 'page_version')
         self.ALL_ANCHORS = []
