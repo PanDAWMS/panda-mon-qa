@@ -71,6 +71,19 @@ file basename has expected pattern 'list-URLS_%(SITENAME)s.%(SITEDOMAIN)s.cfg'
 	where SITENAME is an entry in run_twill_clicker.SITES (can be arg for run_twill_clicker),
 	      SITEDOMAIN is the website domain
 This file contains a list of URLs of the website to visit. One URL per line.
+One line can contain one URL and one regex pattern, delimited by a space
+character.
+e.g.
+http://pandawms.org/lsst/
+ ... only URL is provided, no regex is provided
+http://pandawms.org/lsst/support/maxpandaid/ \d+
+ ... one URL (http://pandawms.org/lsst/support/maxpandaid/) and one regex (\d+) is provided
+http://pandawms.org/lsst/?mode=quicksearch UA-44940804-1
+ ... one URL and one regex (UA-44940804-1) is provided
 
 
+4] Wrapper scripts
+Wrapper scripts to run a particular QAsuite for a particular site can be
+provided. Currently only one is available:
+$WORKDIR/panda-mon-qa/pandamonqa/scripts/run_panda-mon-qa_aipanda043_8080.sh
 
