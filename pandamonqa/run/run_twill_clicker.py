@@ -10,7 +10,7 @@ import string
 import sys
 import traceback
 from run.utils_twill import test_hp_only, test_whole_site, SITES, \
-    WEBSITE_BASE_URL
+    WEBSITE_BASE_URL, site_base_url
 
 
 def list_sites():
@@ -81,7 +81,11 @@ def main():
             if isHPtest:
                 test_hp_only(arg)
             else:
-                urlstring = '%s.%s' % (arg, WEBSITE_BASE_URL)
+                try:
+                    site_url = site_base_url(arg)
+                except:
+                    site_url = WEBSITE_BASE_URL
+                urlstring = '%s.%s' % (arg, site_url)
                 test_whole_site(arg, urlstring)
         except:
             traceback.format_exc()

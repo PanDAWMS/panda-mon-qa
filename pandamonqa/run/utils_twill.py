@@ -40,8 +40,13 @@ def clicker_generic(config_file):
 def clicker_generic_override_PAGE_ADDRESS(config_file, page_address):
     a=QASuite()
     a.configure(config_file)
-    a.PAGE_ADDRESS = page_address
-    a.PAGE_VERSION = QUICK_PAGE_VERSION
+    page_address_list = page_address.split(' ')
+    if len(page_address_list) > 1:
+        a.PAGE_ADDRESS = page_address_list[0]
+        a.PAGE_VERSION = page_address_list[1]
+    else:
+        a.PAGE_ADDRESS = page_address
+        a.PAGE_VERSION = QUICK_PAGE_VERSION
     a.check_version()
 
 
@@ -68,7 +73,15 @@ def clicker_generic_SITENAME_WHOLE(SITENAME, SITEDOMAIN):
         '%s/URL-list/list-URLs_%s.cfg' % (DIR_SETTINGS_CLICKER, SITEDOMAIN))
 
 
+def get_WEBSITE_BASE_URL(site):
+    config_file = '%s/settings-qasuite-sites.cfg' % (DIR_SETTINGS_CLICKER)
+    sites_config = configure_qasuite(config_file)
+    print sites_config
+    return sites_config[site]
+
+
 test_hp_only = clicker_generic_SITENAME_HP
 test_whole_site = clicker_generic_SITENAME_WHOLE
+site_base_url = get_WEBSITE_BASE_URL
 SITES = configure_qasuite('%s/settings-qasuite-sites.cfg' % (DIR_SETTINGS_CLICKER))
 
