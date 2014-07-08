@@ -48,7 +48,7 @@ class QASuite(object):
             :param config_file: config file in the ini format
         """
         printv(u'###### %s() IN' % (inspect.stack()[0][3]), VERB_STANDARD)
-        
+
         config = ConfigParser.SafeConfigParser()
         config.read(config_file)
 
@@ -84,7 +84,7 @@ class QASuite(object):
         try:
             twill.commands.find(self.PAGE_VERSION)
         except twill.errors.TwillAssertionError:
-            result = 'Expected version ' + self.PAGE_VERSION + ' which is not there.'
+            result = 'Expected string ' + self.PAGE_VERSION + ' which is not there.'
             raise twill.errors.TwillAssertionError(result)
 
         printv(u'###### %s() OUT' % (inspect.stack()[0][3]), VERB_STANDARD)
