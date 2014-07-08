@@ -81,12 +81,16 @@ class QASuite(object):
             result = 'Page status code ' + self.PAGE_ADDRESS + ' was ' + str(twill.commands.browser.get_code()) + '.'
             raise twill.errors.TwillAssertionError(result)
 
+        list_errors=[]
+
         try:
             twill.commands.find(self.PAGE_VERSION)
         except twill.errors.TwillAssertionError:
             result = 'Expected string ' + self.PAGE_VERSION + ' which is not there.'
-            raise twill.errors.TwillAssertionError(result)
+#            raise twill.errors.TwillAssertionError(result)
+            list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result))
 
+        #printv('errors found: %s' %(list_errors))
         printv(u'###### %s() OUT' % (inspect.stack()[0][3]), VERB_STANDARD)
-
+        return list_errors
 
