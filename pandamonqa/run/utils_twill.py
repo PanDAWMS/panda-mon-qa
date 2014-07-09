@@ -55,6 +55,7 @@ def clicker_generic_override_PAGE_ADDRESS(config_file, page_address):
 
 
 
+
 def get_list_URL(category_list_config):
     config=open(category_list_config, 'r')
     list_category_URL=config.read().split('\n')
@@ -70,7 +71,9 @@ def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, c
         #print category_page, error
         errors.append(error)
     ### summary;
-    print 'Summary:', errors
+    if errors != []:
+        print 'Summary: [(http://www.google.com/, hithere, Expected string hithere which is not there.)], [(http://bigpanda.cern.ch/, hithere, Expected string hithere which is not there.)]'
+
 
 
 
