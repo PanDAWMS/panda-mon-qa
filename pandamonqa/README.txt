@@ -13,6 +13,7 @@ $WORKDIR is a directory of your choice, e.g. your $HOME.
 	python-nose
 	python-beautifulsoup (Ubuntu 12.04 LTS)
 	python-BeautifulSoup (SLC6)
+	Possible additional dependencies: requests, lxml
 You can install them either on the system level (yum install <package>), or with pip (pip install <package>).
 
 
