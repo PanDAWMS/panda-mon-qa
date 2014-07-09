@@ -75,13 +75,16 @@ class QASuite(object):
         printv(u'###### %s() IN' % (inspect.stack()[0][3]), VERB_STANDARD)
         twill.commands.agent(self.PAGE_BROWSER)
         twill.commands.go(self.PAGE_ADDRESS)
+        isOK = False
+        list_errors=[]
         try:
             twill.commands.code('200')
+            isOK = True
         except twill.errors.TwillAssertionError:
             result = 'Page status code ' + self.PAGE_ADDRESS + ' was ' + str(twill.commands.browser.get_code()) + '.'
-            raise twill.errors.TwillAssertionError(result)
+            #raise twill.errors.TwillAssertionError(result)
+            list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result))
 
-        list_errors=[]
 
         try:
             twill.commands.find(self.PAGE_VERSION)
@@ -90,7 +93,7 @@ class QASuite(object):
 #            raise twill.errors.TwillAssertionError(result)
             list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result))
 
-        #printv('errors found: %s' %(list_errors))
+        printv('errors found: %s' %(list_errors))
         printv(u'###### %s() OUT' % (inspect.stack()[0][3]), VERB_STANDARD)
         return list_errors
 

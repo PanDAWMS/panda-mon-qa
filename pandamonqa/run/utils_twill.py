@@ -69,10 +69,10 @@ def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, c
     for category_page in category_list_URL:
         error = clicker_generic_override_PAGE_ADDRESS(clicker_site_config, category_page)
         #print category_page, error
-        errors.append(error)
+        if error != []:
+            errors.append(error)
     ### summary;
-    if errors != []:
-        print 'Summary: [(http://www.google.com/, hithere, Expected string hithere which is not there.)], [(http://bigpanda.cern.ch/, hithere, Expected string hithere which is not there.)]'
+    print errors
 
 
 
