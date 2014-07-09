@@ -1,6 +1,6 @@
-###   
+###
 ###   Do not run this script!
-###   
+###
 import ConfigParser
 import os
 from qasuite.suite import QASuite
@@ -23,10 +23,12 @@ def configure_qasuite(config_file):
     config.read(config_file)
     ### read list of sites from the config file
     sections = config.sections()
+    print 'sections', sections
     for section in sections:
         SITENAME = config.get(section, 'SITENAME')
         SITEDOMAIN = config.get(section, 'SITEDOMAIN')
         SITESDICT[SITENAME] = SITEDOMAIN
+    print 'sitesdict=', SITESDICT
     return SITESDICT
 
 
@@ -47,7 +49,11 @@ def clicker_generic_override_PAGE_ADDRESS(config_file, page_address):
     else:
         a.PAGE_ADDRESS = page_address
         a.PAGE_VERSION = QUICK_PAGE_VERSION
-    a.check_version()
+    errorlist = a.check_version()
+    return errorlist
+
+
+
 
 
 def get_list_URL(category_list_config):
@@ -59,8 +65,16 @@ def get_list_URL(category_list_config):
 
 def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, category_list_config):
     category_list_URL = get_list_URL(category_list_config)
+    errors = []
     for category_page in category_list_URL:
-        clicker_generic_override_PAGE_ADDRESS(clicker_site_config, category_page)
+        error = clicker_generic_override_PAGE_ADDRESS(clicker_site_config, category_page)
+        #print category_page, error
+        if error != []:
+            errors.append(error)
+    ### summary;
+    print errors
+
+
 
 
 def clicker_generic_SITENAME_HP(SITENAME):

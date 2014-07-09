@@ -40,14 +40,14 @@ def main():
         if re.search('help', arg):
             print_help()
             exit(0)
-    
+
     ARGV=[]
     if len(sys.argv) == 1:
         print u'### WARNING ###\n\t\tNo site specified, will run over all of them: %s' % list_sites()
         ARGV = SITES.keys()
     else:
         ARGV=sys.argv[1:]
-    
+
     isHPtest = False
     HPstring = ''
     if re.search('-hp', ' '.join(ARGV)):
@@ -87,24 +87,14 @@ def main():
                     site_url = WEBSITE_BASE_URL
                 urlstring = '%s.%s' % (arg, site_url)
                 test_whole_site(arg, urlstring)
+                ### TODO: print list of errors found here
         except:
             traceback.format_exc()
             raise
-#        try:
-#            if re.search('hp', arg):
-#                arg1 = string.replace(arg, '-hp', '')
-#                test_hp_only(arg1)
-#            else:
-#                arg1 = arg
-#                urlstring = '%s.%s' % (arg1, WEBSITE_BASE_URL)
-#                test_whole_site(arg1, urlstring)
-#        except:
-#            traceback.format_exc()
-#            raise
         print
         print
         print
-    
+
     print u'Done!'
 
 
