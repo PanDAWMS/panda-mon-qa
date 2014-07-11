@@ -48,12 +48,10 @@ def clicker_generic_override_PAGE_ADDRESS(config_file, page_address):
         a.PAGE_VERSION = page_address_list[1]
     else:
         a.PAGE_ADDRESS = page_address
-        a.PAGE_VERSION = QUICK_PAGE_VERSION
+        if a.PAGE_VERSION == '':
+            a.PAGE_VERSION = QUICK_PAGE_VERSION
     errorlist = a.check_version()
     return errorlist
-
-
-
 
 
 def get_list_URL(category_list_config):
