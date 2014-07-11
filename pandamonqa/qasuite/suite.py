@@ -72,7 +72,7 @@ class QASuite(object):
         """
             Check the page source, look for the version number.
         """
-        printv(u'###### %s() IN' % (inspect.stack()[0][3]), VERB_STANDARD)
+        printv(u'###### %s() IN [for %s]' % (inspect.stack()[0][3], self.PAGE_ADDRESS), VERB_STANDARD)
         twill.commands.agent(self.PAGE_BROWSER)
         twill.commands.go(self.PAGE_ADDRESS)
         isOK = False
