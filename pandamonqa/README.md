@@ -12,18 +12,15 @@ $WORKDIR is a directory of your choice, e.g. your $HOME.
 2. Install dependency libraries. <br />
 You can install them either on the system level (yum install \<package\>), or with pip (pip install \<package\>).
 
-    * python-twill
-    * python-nose
-    * python-beautifulsoup (Ubuntu 12.04 LTS) or python-BeautifulSoup (SLC6)
-    * Possible additional dependencies: requests, lxml<br />
-
-
+        python-twill
+        python-nose
+        python-beautifulsoup (Ubuntu 12.04 LTS) or python-BeautifulSoup (SLC6)
+        Possible additional dependencies: requests, lxml
 
 3. Set up the environment.
-        
+
         # cd $WORKDIR/panda-mon-qa/pandamonqa
         # export PYTHONPATH=$PWD:$PYTHONPATH
-
 
 4. Run the suite.
 
@@ -57,7 +54,7 @@ following:
     * ADD SITEDOMAIN ... string which will be reflected in the list-URLs config file (see below).
     * Example:
 
-            [bigpanda\_root]
+            [bigpanda_root]
             SITENAME = bigpanda_root
             SITEDOMAIN = bigpanda.cern.ch
 
@@ -80,7 +77,6 @@ e.g. in $WORKDIR/panda-mon-qa/pandamonqa/settings/URL-list/list-URLs\_bigpanda\_
 file basename has expected pattern 'list-URLS\_%(SITENAME)s.%(SITEDOMAIN)s.cfg'
     * SITENAME is an entry in run\_twill\_clicker.SITES (can be arg for run\_twill\_clicker),
     * SITEDOMAIN is the website domain.
-
 This file contains a list of URLs of the website to visit. One URL per line.
 One line can contain one URL and one regex pattern, delimited by a space
 character.<br />
@@ -91,8 +87,9 @@ e.g.<br />
     http://pandawms.org/lsst/support/maxpandaid/ \d+
      ... one URL (http://pandawms.org/lsst/support/maxpandaid/) and one regex (\d+) is provided
     http://pandawms.org/lsst/?mode=quicksearch UA-44940804-1
-     ... one URL and one regex (UA-44940804-1) is provided
-4. Wrapper scripts.<br/>
+     ... one URL and one regex (UA-44940804-1) is provided<br />
+
+4. Wrapper scripts.<br />
 Wrapper scripts to run a particular QAsuite for a particular site can be
 provided. Currently only one is available: $WORKDIR/panda-mon-qa/pandamonqa/scripts/run\_panda-mon-qa\_aipanda043\_8080.sh.
 
