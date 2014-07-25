@@ -82,12 +82,12 @@ One line can contain one URL and one regex pattern, delimited by a space
 character.<br />
 e.g.<br />
 
-    http://pandawms.org/lsst/
-     ... only URL is provided, no regex is provided
-    http://pandawms.org/lsst/support/maxpandaid/ \d+
-     ... one URL (http://pandawms.org/lsst/support/maxpandaid/) and one regex (\d+) is provided
-    http://pandawms.org/lsst/?mode=quicksearch UA-44940804-1
-     ... one URL and one regex (UA-44940804-1) is provided<br />
+            http://pandawms.org/lsst/
+             ... only URL is provided, no regex is provided
+            http://pandawms.org/lsst/support/maxpandaid/ \d+
+             ... one URL (http://pandawms.org/lsst/support/maxpandaid/) and one regex (\d+) is provided
+            http://pandawms.org/lsst/?mode=quicksearch UA-44940804-1
+             ... one URL and one regex (UA-44940804-1) is provided<br />
 
 4. Wrapper scripts.<br />
 Wrapper scripts to run a particular QAsuite for a particular site can be
