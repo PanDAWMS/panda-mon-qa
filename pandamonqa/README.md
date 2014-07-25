@@ -87,7 +87,7 @@ e.g.<br />
             http://pandawms.org/lsst/support/maxpandaid/ \d+
              ... one URL (http://pandawms.org/lsst/support/maxpandaid/) and one regex (\d+) is provided
             http://pandawms.org/lsst/?mode=quicksearch UA-44940804-1
-             ... one URL and one regex (UA-44940804-1) is provided<br />
+             ... one URL and one regex (UA-44940804-1) is provided
 
 4. Wrapper scripts.<br />
 Wrapper scripts to run a particular QAsuite for a particular site can be
