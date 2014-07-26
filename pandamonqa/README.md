@@ -15,7 +15,7 @@ You can install them either on the system level (yum install \<package\>), or wi
         python-twill
         python-nose
         python-beautifulsoup (Ubuntu 12.04 LTS) or python-BeautifulSoup (SLC6)
-        Possible additional dependencies: requests, lxml
+        Possible additional dependencies: requests=2.2.1, lxml, cssselect
 
 3. Set up the environment.
 
