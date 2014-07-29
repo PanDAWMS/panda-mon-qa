@@ -5,19 +5,19 @@
 
 
 echo "Running job $JOB_NAME for package $packagename."
-echo "env:"
-env
 echo "whoami:"
 whoami
+echo "env:"
+env
 
-
+echo "Prepare for the ride..."
 ### get new RPM version
 export new_version_packagename=$( dirname $( find /data/build/QA_incoming/ -name $packagename'*' | sort -nr | head -n1) | sed -e "s#.rpm##g")
-### install new RPM on aipanda043
-#ssh -o StrictHostKeyChecking=no -vvv -t atlpan@aipanda043.cern.ch /data/atlpan/update_bigpandamon_twdev.sh
-#/data/atlpan/scripts/run_update_bigpandamon_twdev_on_aipanda043.sh
+### install new RPM on aipanda022
+### trigger installation in an acronjob, asynchronously
 flag_file=/tmp/$USER.jenkins_twdev.flag
 touch $flag_file
+### wait for the installation to finish
 continue_flag_file=/tmp/$USER.jenkins_twdev.continue
 max_duration=300
 step=10
@@ -33,7 +33,7 @@ do
 done
 ### fetch installed RPM version
 new_version_file=$PWD/$packagename.version
-curl "http://aipanda043.cern.ch/version/$packagename" -o $new_version_file 2>/dev/null
+curl "http://aipanda022.cern.ch/version/$packagename" -o $new_version_file 2>/dev/null
 new_version_packagename=$(cat $new_version_file)
 ### download smoke test suite
 qa_suite_dir=$PWD/panda-mon-qa
@@ -46,19 +46,21 @@ git pull
 cd $qa_suite_dir/pandamonqa
 export PYTHONPATH=$PWD:$PYTHONPATH
 ### run smoke test suite
-python run/run_twill_clicker.py aipanda043_root
+python run/run_twill_clicker.py aipanda022_root
 export test_result=$?
 if [ "$test_result" -eq "0"  ]; then
 ### if smoke test successful -> move RPM from QA_incoming to QA_passed
+    cp /data/build/QA_incoming/$new_version_packagename.rpm /data/build/x86_64
     mv /data/build/QA_incoming/$new_version_packagename.rpm /data/build/QA_passed
+    ### refresh QA_passed/QA_failed repository
+    /data/build-not-public/repo_x86_64
 #	/data/build-not-public/repo_QA_passed
 else
 ### if smoke test failed -> move RPM from QA_incoming to QA_failed
     mv /data/build/QA_incoming/$new_version_packagename.rpm /data/build/QA_failed
 #	/data/build-not-public/repo_QA_failed
 fi
-### cleanup
-#rm -rf $qa_suite_dir 2>/dev/null
-### TODO: refresh QA_passed/QA_failed repository
+
+### That's all, folks!
 echo "Finished running job $JOB_NAME for package $packagename."
 

@@ -14,10 +14,10 @@ while [ $i -lt $max_duration ];
 do
     if [ -f $flag_file ]; then
         touch $lock_file
-        if [ ! -f /data/atlpan/scripts/run_update_bigpandamon_twdev_on_aipanda043.sh ]; then
-            echo "Missing file /data/atlpan/scripts/run_update_bigpandamon_twdev_on_aipanda043.sh on $(hostname). Running as $(whoami)." | mail -s "${SUBJ_PREFIX} ${MAILDATESTRING}" ${ADMIN}
+        if [ ! -f /data/atlpan/scripts/run_update_bigpandamon_twdev_on_aipanda022.sh ]; then
+            echo "Missing file /data/atlpan/scripts/run_update_bigpandamon_twdev_on_aipanda022.sh on $(hostname). Running as $(whoami)." | mail -s "${SUBJ_PREFIX} ${MAILDATESTRING}" ${ADMIN}
         fi
-        /data/atlpan/scripts/run_update_bigpandamon_twdev_on_aipanda043.sh
+        /data/atlpan/scripts/run_update_bigpandamon_twdev_on_aipanda022.sh
         rm -fv $flag_file $lock_file
     fi
     sleep $step

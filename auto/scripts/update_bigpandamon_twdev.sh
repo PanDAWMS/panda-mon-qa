@@ -1,6 +1,6 @@
 #!/bin/bash
 # script to update RPMs, restart apache and change log ownership
-# to be run as atlpan on aipanda043
+# to be run as atlpan on aipanda022
 # Contact Jaroslava.Schovancova@cern.ch with questions. 
 
 echo "### Running $(basename $0) as $(whoami) @ $(hostname) at $(date)"
