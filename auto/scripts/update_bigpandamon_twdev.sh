@@ -6,6 +6,7 @@
 echo "### Running $(basename $0) as $(whoami) @ $(hostname) at $(date)"
 PACKAGE1="twdev-bigpandamon-lsst"
 PACKAGE2="twdev-bigpandamon-core"
+sudo cp /data/atlpan/pandabuild.repo /etc/yum-puppet.repos.d/pandabuild.repo
 
 
 ### Define functions ###

@@ -50,8 +50,8 @@ python run/run_twill_clicker.py aipanda022_root
 export test_result=$?
 if [ "$test_result" -eq "0"  ]; then
 ### if smoke test successful -> move RPM from QA_incoming to QA_passed
-    cp /data/build/QA_incoming/$new_version_packagename.rpm /data/build/x86_64
-    mv /data/build/QA_incoming/$new_version_packagename.rpm /data/build/QA_passed
+    cp /data/build/QA_incoming/$new_version_packagename.rpm /data/build/x86_64/
+    mv /data/build/QA_incoming/$new_version_packagename.rpm /data/build/QA_passed/
     ### refresh QA_passed/QA_failed repository
     /data/build-not-public/repo_x86_64
 #	/data/build-not-public/repo_QA_passed
@@ -61,6 +61,8 @@ else
 #	/data/build-not-public/repo_QA_failed
 fi
 
+### Cleanup
+rm -rf $continue_flag_file 2>/dev/null
 ### That's all, folks!
 echo "Finished running job $JOB_NAME for package $packagename."
 
