@@ -23,12 +23,12 @@ def configure_qasuite(config_file):
     config.read(config_file)
     ### read list of sites from the config file
     sections = config.sections()
-    print 'sections', sections
+#    print 'sections', sections
     for section in sections:
         SITENAME = config.get(section, 'SITENAME')
         SITEDOMAIN = config.get(section, 'SITEDOMAIN')
         SITESDICT[SITENAME] = SITEDOMAIN
-    print 'sitesdict=', SITESDICT
+#    print 'sitesdict=', SITESDICT
     return SITESDICT
 
 
@@ -70,9 +70,12 @@ def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, c
         if error != []:
             errors.append(error)
     ### summary;
-    print errors
-
-
+    if len(errors):
+        print
+        print
+        print
+        print "Errors:", errors
+    return errors
 
 
 def clicker_generic_SITENAME_HP(SITENAME):
@@ -80,9 +83,10 @@ def clicker_generic_SITENAME_HP(SITENAME):
 
 
 def clicker_generic_SITENAME_WHOLE(SITENAME, SITEDOMAIN):
-    clicker_generic_override_PAGE_ADDRESS_loop_categories(\
+    errors = clicker_generic_override_PAGE_ADDRESS_loop_categories(\
         '%s/settings-%s.cfg' % (DIR_SETTINGS_CLICKER, SITENAME), \
         '%s/URL-list/list-URLs_%s.cfg' % (DIR_SETTINGS_CLICKER, SITEDOMAIN))
+    return errors
 
 
 def get_WEBSITE_BASE_URL(site):

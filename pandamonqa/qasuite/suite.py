@@ -47,7 +47,7 @@ class QASuite(object):
             configure: Read configuration from config_file.
             :param config_file: config file in the ini format
         """
-        printv(u'###### %s() IN' % (inspect.stack()[0][3]), VERB_STANDARD)
+#        printv(u'###### %s() IN' % (inspect.stack()[0][3]), VERB_STANDARD)
 
         config = ConfigParser.SafeConfigParser()
         config.read(config_file)
@@ -63,7 +63,7 @@ class QASuite(object):
 #        self.STATIC_SERVER = config.get('Statics', 'static_server')
 #        self.STATICS = []
 
-        printv(u'###### %s() OUT' % (inspect.stack()[0][3]), VERB_STANDARD)
+#        printv(u'###### %s() OUT' % (inspect.stack()[0][3]), VERB_STANDARD)
 
         return config
 
@@ -72,19 +72,20 @@ class QASuite(object):
         """
             Check the page source, look for the version number.
         """
+        if not len(self.PAGE_ADDRESS):
+            return []
         printv(u'###### %s() IN [for %s]' % (inspect.stack()[0][3], self.PAGE_ADDRESS), VERB_STANDARD)
         twill.commands.agent(self.PAGE_BROWSER)
         twill.commands.go(self.PAGE_ADDRESS)
-        isOK = False
+#        isOK = False
         list_errors=[]
         try:
             twill.commands.code('200')
-            isOK = True
+#            isOK = True
         except twill.errors.TwillAssertionError:
             result = 'Page status code ' + self.PAGE_ADDRESS + ' was ' + str(twill.commands.browser.get_code()) + '.'
             #raise twill.errors.TwillAssertionError(result)
             list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result))
-
 
         try:
             twill.commands.find(self.PAGE_VERSION)
@@ -93,7 +94,10 @@ class QASuite(object):
 #            raise twill.errors.TwillAssertionError(result)
             list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result))
 
-        printv('errors found: %s' %(list_errors))
+        if list_errors:
+            printv('errors found: %s' % (list_errors))
+        else:
+            printv('OK (%s)' % (self.PAGE_ADDRESS))
         printv(u'###### %s() OUT' % (inspect.stack()[0][3]), VERB_STANDARD)
         return list_errors
 
