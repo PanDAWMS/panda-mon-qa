@@ -75,7 +75,7 @@ class QASuite(object):
         list_errors=[]
         list_warnings = []
         if not len(self.PAGE_ADDRESS):
-            return []
+            return ([], [])
         printv(u'###### %s() IN [for %s]' % (inspect.stack()[0][3], self.PAGE_ADDRESS), VERB_STANDARD)
         twill.commands.agent(self.PAGE_BROWSER)
         try:
