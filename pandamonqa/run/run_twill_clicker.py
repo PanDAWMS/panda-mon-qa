@@ -64,6 +64,7 @@ def main():
         print u'### WARNING ###\n\t\tNo site specified, will run over all of them: %s' % list_sites()
 
     errors = []
+    warnings = []
     for arg in ARGV:
         print u'Processing site:', arg, HPstring
         arg1 = arg
@@ -88,9 +89,12 @@ def main():
                     site_url = WEBSITE_BASE_URL
                 urlstring = '%s.%s' % (arg, site_url)
                 errors_new = []
-                errors_new = test_whole_site(arg, urlstring)
+                warnings_new = []
+                errors_new, warnings_new = test_whole_site(arg, urlstring)
                 if len(errors_new):
                     errors.extend(errors_new)
+                if len(warnings_new):
+                    warnings.extend(warnings_new)
                 ### TODO: print list of errors found here
         except:
             traceback.format_exc()

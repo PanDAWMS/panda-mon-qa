@@ -50,8 +50,8 @@ def clicker_generic_override_PAGE_ADDRESS(config_file, page_address):
         a.PAGE_ADDRESS = page_address
         if a.PAGE_VERSION == '':
             a.PAGE_VERSION = QUICK_PAGE_VERSION
-    errorlist = a.check_version()
-    return errorlist
+    errorlist, warninglist = a.check_version()
+    return errorlist, warninglist
 
 
 def get_list_URL(category_list_config):
@@ -64,18 +64,26 @@ def get_list_URL(category_list_config):
 def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, category_list_config):
     category_list_URL = get_list_URL(category_list_config)
     errors = []
+    warnings = []
     for category_page in category_list_URL:
-        error = clicker_generic_override_PAGE_ADDRESS(clicker_site_config, category_page)
+        error, warning = clicker_generic_override_PAGE_ADDRESS(clicker_site_config, category_page)
         #print category_page, error
         if error != []:
             errors.append(error)
+        if warning != []:
+            warnings.append(warning)
     ### summary;
+    if len(warnings):
+        print
+        print
+        print
+        print "Warnings:", warnings
     if len(errors):
         print
         print
         print
         print "Errors:", errors
-    return errors
+    return errors, warnings
 
 
 def clicker_generic_SITENAME_HP(SITENAME):
@@ -83,10 +91,10 @@ def clicker_generic_SITENAME_HP(SITENAME):
 
 
 def clicker_generic_SITENAME_WHOLE(SITENAME, SITEDOMAIN):
-    errors = clicker_generic_override_PAGE_ADDRESS_loop_categories(\
+    errors, warnings = clicker_generic_override_PAGE_ADDRESS_loop_categories(\
         '%s/settings-%s.cfg' % (DIR_SETTINGS_CLICKER, SITENAME), \
         '%s/URL-list/list-URLs_%s.cfg' % (DIR_SETTINGS_CLICKER, SITEDOMAIN))
-    return errors
+    return errors, warnings
 
 
 def get_WEBSITE_BASE_URL(site):

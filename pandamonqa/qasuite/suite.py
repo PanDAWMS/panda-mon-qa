@@ -72,13 +72,25 @@ class QASuite(object):
         """
             Check the page source, look for the version number.
         """
+        list_errors=[]
+        list_warnings = []
         if not len(self.PAGE_ADDRESS):
             return []
         printv(u'###### %s() IN [for %s]' % (inspect.stack()[0][3], self.PAGE_ADDRESS), VERB_STANDARD)
         twill.commands.agent(self.PAGE_BROWSER)
-        twill.commands.go(self.PAGE_ADDRESS)
+        try:
+            twill.commands.go(self.PAGE_ADDRESS)
+        except twill.errors.TwillException:
+            printv(u'First attempt to visit %s failed. Will retry once.' % (self.PAGE_ADDRESS), VERB_STANDARD)
+            ### retry if the PAGE_ADDRESS times out
+            try:
+                twill.commands.go(self.PAGE_ADDRESS)
+            except twill.errors.TwillException:
+                printv(u'Even the second attempt to visit %s failed. Marking as warning.' % (self.PAGE_ADDRESS), VERB_STANDARD)
+                result = "Page " + self.PAGE_ADDRESS + " timed out."
+                list_warnings.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result))
+            
 #        isOK = False
-        list_errors=[]
         try:
             twill.commands.code('200')
 #            isOK = True
@@ -99,5 +111,5 @@ class QASuite(object):
         else:
             printv('OK (%s)' % (self.PAGE_ADDRESS))
         printv(u'###### %s() OUT' % (inspect.stack()[0][3]), VERB_STANDARD)
-        return list_errors
+        return (list_errors, list_warnings)
 
