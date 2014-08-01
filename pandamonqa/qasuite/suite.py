@@ -77,13 +77,14 @@ class QASuite(object):
         if not len(self.PAGE_ADDRESS):
             return ([], [])
         printv(u'###### %s() IN [for %s]' % (inspect.stack()[0][3], self.PAGE_ADDRESS), VERB_STANDARD)
-        twill.commands.agent(self.PAGE_BROWSER)
         try:
+            twill.commands.agent(self.PAGE_BROWSER)
             twill.commands.go(self.PAGE_ADDRESS)
         except twill.errors.TwillException:
             printv(u'First attempt to visit %s failed. Will retry once.' % (self.PAGE_ADDRESS), VERB_STANDARD)
             ### retry if the PAGE_ADDRESS times out
             try:
+                twill.commands.agent(self.PAGE_BROWSER)
                 twill.commands.go(self.PAGE_ADDRESS)
             except twill.errors.TwillException:
                 printv(u'Even the second attempt to visit %s failed. Marking as warning.' % (self.PAGE_ADDRESS), VERB_STANDARD)
