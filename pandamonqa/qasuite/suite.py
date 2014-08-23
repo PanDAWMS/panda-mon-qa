@@ -78,7 +78,7 @@ class QASuite(object):
         try:
             filebasename = '%s___%s%s' % (\
                         datetime.utcnow().strftime("%F.%H%M%S"), \
-                        str(self.PAGE_ADDRESS).replace('/', '_').replace(':', '_').replace('?', '_').replace('#', '_').replace('=', '_'), \
+                        str(self.PAGE_ADDRESS).replace('/', '_').replace(':', '_').replace('?', '_').replace('&', '_').replace('#', '_').replace('=', '_'), \
                         '.html' \
                         )
             dir = self.PAGE_CONTENT_DIRECTORY
@@ -173,6 +173,7 @@ class QASuite(object):
                 try:
                     filebasename, filename, fileurl = self.filenames()
                     twill.commands.save_html(filename)
+                    page_html = twill.commands.show()
                     error_title, error_description = self.get_error_from_django(page_html)
                 except:
                     pass
