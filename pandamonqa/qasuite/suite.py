@@ -77,7 +77,7 @@ class QASuite(object):
         try:
             filebasename = '%s___%s%s' % (\
                         str(self.PAGE_ADDRESS).replace('/', '%2F').replace(':', '%3A').replace('?', '%3F').replace('#', '%23').replace('=', '%3D'), \
-                        datetime.utcnow().strftime("%F-%H%M%S"), \
+                        datetime.utcnow().strftime("%F.%H%M%S"), \
                         '.html' \
                         )
             dir = self.PAGE_CONTENT_DIRECTORY
@@ -106,6 +106,7 @@ class QASuite(object):
         list_warnings = []
         if not len(self.PAGE_ADDRESS):
             return ([], [])
+        starttime = datetime.utcnow().strftime("%F.%H%M%S")
         printv(u'###### %s() IN [for %s]' % (inspect.stack()[0][3], self.PAGE_ADDRESS), VERB_STANDARD)
         try:
             twill.commands.agent(self.PAGE_BROWSER)
@@ -128,6 +129,7 @@ class QASuite(object):
             isOK = True
         except twill.errors.TwillAssertionError:
             result = 'Page status code ' + self.PAGE_ADDRESS + ' was ' + str(twill.commands.browser.get_code()) + '.'
+            endtime = datetime.utcnow().strftime("%F.%H%M%S")
             ### save the page when returned code is other than 200
             try:
                 filebasename, filename, fileurl = self.filenames()
@@ -135,7 +137,7 @@ class QASuite(object):
             except:
                 pass
             #raise twill.errors.TwillAssertionError(result)
-            list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result, fileurl))
+            list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result, fileurl, starttime, endtime))
 
         if isOK:
             ### find the version string
@@ -143,13 +145,14 @@ class QASuite(object):
                 twill.commands.find(self.PAGE_VERSION)
             except twill.errors.TwillAssertionError:
                 result = 'Expected string ' + self.PAGE_VERSION + ' which is not there.'
+                endtime = datetime.utcnow().strftime("%F.%H%M%S")
     #            raise twill.errors.TwillAssertionError(result)
                 try:
                     filebasename, filename, fileurl = self.filenames()
                     twill.commands.save_html(filename)
                 except:
                     pass
-                list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result, fileurl))
+                list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result, fileurl, starttime, endtime))
 
         if list_errors:
             printv('errors found: %s' % (list_errors))
