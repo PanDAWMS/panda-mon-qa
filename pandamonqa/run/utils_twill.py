@@ -108,8 +108,7 @@ Django error:      %(error_title)s
        'startT': startT, 'endT': endT, \
        'error_title': error_title, 'error_description': error_description \
         }
-#            print err_str
-            if error_description in ignored_errors:
+            if error_description[:-1] in ignored_errors or error_description in ignored_errors:
                 ignored_errors_string += err_str
                 errors.pop(errors.index(err))
             else:
