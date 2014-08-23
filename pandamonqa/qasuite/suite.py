@@ -155,7 +155,6 @@ class QASuite(object):
                 filebasename, filename, fileurl = self.filenames()
                 twill.commands.save_html(filename)
                 f = open(filename, 'r')
-#                f = open('/tmp/OperationalError_at_user_simon_head_.html', 'r')
                 page_html = f.read()
                 f.close()
                 error_title, error_description = self.get_error_from_django(page_html)
