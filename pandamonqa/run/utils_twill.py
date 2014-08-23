@@ -111,6 +111,7 @@ Django error:      %(error_title)s
 #            print err_str
             if error_description in ignored_errors:
                 ignored_errors_string += err_str
+                errors.pop(errors.index(err))
             else:
                 errors_string += err_str
         ### print Ignored Errors
