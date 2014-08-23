@@ -179,10 +179,12 @@ class QASuite(object):
                 list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result, \
                     fileurl, starttime, endtime, error_title, error_description))
 
+        endtime = datetime.utcnow().strftime("%F.%H%M%S")
         if list_errors:
             printv('errors found: %s' % (list_errors))
         else:
             printv('OK (%s)' % (self.PAGE_ADDRESS))
+        printv('    start[%s] end[%s]' % (starttime, endtime))
         printv(u'###### %s() OUT' % (inspect.stack()[0][3]), VERB_STANDARD)
         return (list_errors, list_warnings)
 
