@@ -76,7 +76,7 @@ class QASuite(object):
         filebasename = filename = fileurl = ''
         try:
             filebasename = '%s___%s%s' % (\
-                        str(self.PAGE_ADDRESS).replace('/', '%2F').replace(':', '%3A').replace('?', '%3F').replace('#', '%23').replace('=', '%3D'), \
+                        str(self.PAGE_ADDRESS).replace('/', '_').replace(':', '_').replace('?', '_').replace('#', '_').replace('=', '_'), \
                         datetime.utcnow().strftime("%F.%H%M%S"), \
                         '.html' \
                         )
