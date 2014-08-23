@@ -82,7 +82,10 @@ def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, c
         print
         print
         print
-        print "Errors:" # , errors
+        errors_string = ''
+        ### TODO FIXME: make ignored_errors configurable via settings!
+        ignored_errors = ['ORA-01013: user requested cancel of current operation']
+        ignored_errors_string = ''
         for err in errors:
             try:
                 page_address, page_version, page_result, page_dump, startT, endT, \
@@ -105,7 +108,23 @@ Django error:      %(error_title)s
        'startT': startT, 'endT': endT, \
        'error_title': error_title, 'error_description': error_description \
         }
-            print err_str
+#            print err_str
+            if error_description in ignored_errors:
+                ignored_errors_string += err_str
+            else:
+                errors_string += err_str
+        ### print Ignored Errors
+        if len(ignored_errors_string):
+            print "Ignored Errors:"  # , errors
+            print ignored_errors_string
+            print
+            print
+            print
+        ### print Ignored Errors
+        if len(errors_string):
+            print "Errors:"  # , errors
+            print errors_string
+
     return errors, warnings
 
 
