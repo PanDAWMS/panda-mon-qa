@@ -82,7 +82,22 @@ def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, c
         print
         print
         print
-        print "Errors:", errors
+        print "Errors:" # , errors
+        for err in errors:
+            try:
+                page_address, page_version, page_result, page_dump = err[0]
+            except:
+                page_address = err
+                page_version = page_result = page_dump = ''
+            err_str = """
+Page: %(page_address)s
+Version string:    %(page_version)s
+Error:             %(page_result)s
+Page dump:         %(page_dump)s
+
+""" % {'page_address': page_address, 'page_version': page_version, \
+       'page_result': page_result, 'page_dump': page_dump }
+            print err_str
     return errors, warnings
 
 
