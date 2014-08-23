@@ -165,13 +165,6 @@ class QASuite(object):
             list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result, \
                 fileurl, starttime, endtime, error_title, error_description))
 
-
-#        f = open('/tmp/OperationalError_at_user_simon_head_.html', 'r')
-#        page_html = f.read()
-#        f.close()
-#        error_title, error_description = self.get_error_from_django(page_html)
-#        print 'error_title=', error_title
-
         if isOK:
             ### find the version string
             try:
@@ -183,8 +176,7 @@ class QASuite(object):
                 try:
                     filebasename, filename, fileurl = self.filenames()
                     twill.commands.save_html(filename)
-#                    f = open(filename, 'r')
-                    f = open('/tmp/OperationalError_at_user_simon_head_.html', 'r')
+                    f = open(filename, 'r')
                     page_html = f.read()
                     f.close()
                     error_title, error_description = self.get_error_from_django(page_html)
@@ -198,7 +190,8 @@ class QASuite(object):
             printv('errors found: %s' % (list_errors))
         else:
             printv('OK (%s)' % (self.PAGE_ADDRESS))
-        printv('    start[%s] end[%s]' % (starttime, endtime))
+        printv('    start: %s' % (starttime))
+        printv('    end:   %s' % (endtime))
         printv(u'###### %s() OUT' % (inspect.stack()[0][3]), VERB_STANDARD)
         return (list_errors, list_warnings)
 
