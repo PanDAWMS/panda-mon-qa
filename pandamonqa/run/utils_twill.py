@@ -85,19 +85,25 @@ def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, c
         print "Errors:" # , errors
         for err in errors:
             try:
-                page_address, page_version, page_result, page_dump, startT, endT = err[0]
+                page_address, page_version, page_result, page_dump, startT, endT, \
+                error_title, error_description = err[0]
             except:
                 page_address = err
-                page_version = page_result = page_dump = startT = endT = ''
+                page_version = page_result = page_dump = startT = endT = \
+                error_title = error_description = ''
             err_str = """
 Page: %(page_address)s
+Time range (UTC):  from %(startT)s to %(endT)s
 Version string:    %(page_version)s
 Error:             %(page_result)s
 Page dump:         %(page_dump)s
-Time range (UTC):  from %(startT)s to %(endT)s
+Django error:      %(error_title)s
+                   %(error_description)s
+
 """ % {'page_address': page_address, 'page_version': page_version, \
        'page_result': page_result, 'page_dump': page_dump, \
-       'startT': startT, 'endT': endT \
+       'startT': startT, 'endT': endT, \
+       'error_title': error_title, 'error_description': error_description \
         }
             print err_str
     return errors, warnings

@@ -12,6 +12,7 @@ import twill.extensions.check_links
 import urllib
 import urllib2
 import urlparse
+from BSXPath import BSXPathEvaluator, XPathResult, XPathExpression
 from BeautifulSoup import BeautifulSoup
 from datetime import datetime
 
@@ -98,6 +99,24 @@ class QASuite(object):
         return (filebasename, filename, fileurl)
 
 
+    def get_error_from_django(self, document):
+        ### init
+        error_title = error_description = ''
+        ### xpath terms
+        xpath_title = './/div[@id="summary"]/h1/text()'
+        xpath_description = './/div[@id="summary"]/h1/text()'
+        ### get the title and description
+        BSXdocument = BSXPathEvaluator(document)
+        title = BSXdocument.getItemList(xpath_title)
+        if len(title) > 0:
+            error_title = BSXPathEvaluator('%s' % title[0])
+        description = BSXdocument.getItemList(xpath_description)
+        if len(description) > 0:
+            error_description = BSXPathEvaluator('%s' % description[0])
+        ### return error title and description
+        return (error_title, error_description)
+
+
     def check_version(self):
         """
             Check the page source, look for the version number.
@@ -123,6 +142,7 @@ class QASuite(object):
                 list_warnings.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result))
             
         filebasename = filename = fileurl = ''
+        error_title = error_description = 'n/a'
         isOK = False
         try:
             twill.commands.code('200')
@@ -134,10 +154,13 @@ class QASuite(object):
             try:
                 filebasename, filename, fileurl = self.filenames()
                 twill.commands.save_html(filename)
+                page_html = twill.commands.show()
+                error_title, error_description = self.get_error_from_django(page_html)
             except:
                 pass
             #raise twill.errors.TwillAssertionError(result)
-            list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result, fileurl, starttime, endtime))
+            list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result, \
+                fileurl, starttime, endtime, error_title, error_description))
 
         if isOK:
             ### find the version string
@@ -150,9 +173,11 @@ class QASuite(object):
                 try:
                     filebasename, filename, fileurl = self.filenames()
                     twill.commands.save_html(filename)
+                    error_title, error_description = self.get_error_from_django(page_html)
                 except:
                     pass
-                list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result, fileurl, starttime, endtime))
+                list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result, \
+                    fileurl, starttime, endtime, error_title, error_description))
 
         if list_errors:
             printv('errors found: %s' % (list_errors))
