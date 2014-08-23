@@ -104,15 +104,15 @@ class QASuite(object):
         error_title = error_description = ''
         ### xpath terms
         xpath_title = './/div[@id="summary"]/h1/text()'
-        xpath_description = './/div[@id="summary"]/h1/text()'
+        xpath_description = './/div[@id="summary"]/pre/text()'
         ### get the title and description
         BSXdocument = BSXPathEvaluator(document)
         title = BSXdocument.getItemList(xpath_title)
         if len(title) > 0:
-            error_title = BSXPathEvaluator('%s' % title[0])
+            error_title = '%s' % title[0]
         description = BSXdocument.getItemList(xpath_description)
         if len(description) > 0:
-            error_description = BSXPathEvaluator('%s' % description[0])
+            error_description = '%s' % description[0]
         ### return error title and description
         return (error_title, error_description)
 
@@ -154,13 +154,23 @@ class QASuite(object):
             try:
                 filebasename, filename, fileurl = self.filenames()
                 twill.commands.save_html(filename)
-                page_html = twill.commands.show()
+                f = open(filename, 'r')
+#                f = open('/tmp/OperationalError_at_user_simon_head_.html', 'r')
+                page_html = f.read()
+                f.close()
                 error_title, error_description = self.get_error_from_django(page_html)
             except:
                 pass
             #raise twill.errors.TwillAssertionError(result)
             list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result, \
                 fileurl, starttime, endtime, error_title, error_description))
+
+
+#        f = open('/tmp/OperationalError_at_user_simon_head_.html', 'r')
+#        page_html = f.read()
+#        f.close()
+#        error_title, error_description = self.get_error_from_django(page_html)
+#        print 'error_title=', error_title
 
         if isOK:
             ### find the version string
@@ -173,7 +183,10 @@ class QASuite(object):
                 try:
                     filebasename, filename, fileurl = self.filenames()
                     twill.commands.save_html(filename)
-                    page_html = twill.commands.show()
+#                    f = open(filename, 'r')
+                    f = open('/tmp/OperationalError_at_user_simon_head_.html', 'r')
+                    page_html = f.read()
+                    f.close()
                     error_title, error_description = self.get_error_from_django(page_html)
                 except:
                     pass
