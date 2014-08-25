@@ -117,6 +117,20 @@ class QASuite(object):
         return (error_title, error_description)
 
 
+    def get_error_apache(self, document):
+        ### init
+        apache_error = ''
+        ### xpath terms
+        xpath_apache_error = './/title/text()'
+        ### get the title and description
+        BSXdocument = BSXPathEvaluator(document)
+        err = BSXdocument.getItemList(xpath_apache_error)
+        if len(err) > 0:
+            apache_error = '%s' % err[0]
+        ### return error title and description
+        return apache_error
+
+
     def check_version(self):
         """
             Check the page source, look for the version number.
@@ -142,13 +156,14 @@ class QASuite(object):
                 list_warnings.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result))
             
         filebasename = filename = fileurl = ''
-        error_title = error_description = 'n/a'
+        error_title = error_description = apache_error = 'n/a'
         isOK = False
         try:
             twill.commands.code('200')
             isOK = True
         except twill.errors.TwillAssertionError:
-            result = 'Page status code ' + self.PAGE_ADDRESS + ' was ' + str(twill.commands.browser.get_code()) + '.'
+#            result = 'Page status code ' + self.PAGE_ADDRESS + ' was ' + str(twill.commands.browser.get_code()) + '.'
+            result = 'HTTP status ' + str(twill.commands.browser.get_code())
             endtime = datetime.utcnow().strftime("%F.%H%M%S")
             ### save the page when returned code is other than 200
             try:
@@ -158,11 +173,13 @@ class QASuite(object):
                 page_html = f.read()
                 f.close()
                 error_title, error_description = self.get_error_from_django(page_html)
+                apache_error = self.get_error_apache(page_html)
             except:
                 pass
             #raise twill.errors.TwillAssertionError(result)
             list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result, \
-                fileurl, starttime, endtime, error_title, error_description))
+                fileurl, starttime, endtime, error_title, error_description, \
+                apache_error))
 
         if isOK:
             ### find the version string
@@ -179,10 +196,13 @@ class QASuite(object):
                     page_html = f.read()
                     f.close()
                     error_title, error_description = self.get_error_from_django(page_html)
+                    if len(error_title) + len(error_description) < 10:
+                        apache_error = self.get_error_apache(page_html)
                 except:
                     pass
                 list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result, \
-                    fileurl, starttime, endtime, error_title, error_description))
+                    fileurl, starttime, endtime, error_title, error_description, \
+                    apache_error))
 
         endtime = datetime.utcnow().strftime("%F.%H%M%S")
         if list_errors:
