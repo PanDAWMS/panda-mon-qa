@@ -44,6 +44,7 @@ class QASuite(object):
 #    STATIC_SERVER = ''
     PAGE_CONTENT_DIRECTORY = ''
     PAGE_URL_PREFIX = ''
+    IGNORED_ERRORS = []
 
     def configure(self, config_file):
         """
@@ -60,6 +61,10 @@ class QASuite(object):
         self.PAGE_VERSION = config.get('VersionInfo', 'page_version')
         self.PAGE_CONTENT_DIRECTORY = config.get('Debugging', 'page_content_directory')
         self.PAGE_URL_PREFIX = config.get('Debugging', 'page_url_prefix')
+        try:
+            self.IGNORED_ERRORS = re.sub('\n', '', config.get('Errors', 'ignored_errors')).split(',')
+        except:
+            self.IGNORED_ERRORS = []
         self.ALL_ANCHORS = []
         self.ALL_CLICKABLE_ANCHORS = []
 #        self.STATIC_LIST_ADDRESS = config.get('Statics', 'static_list_address')

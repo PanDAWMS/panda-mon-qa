@@ -51,7 +51,7 @@ def clicker_generic_override_PAGE_ADDRESS(config_file, page_address):
         if a.PAGE_VERSION == '':
             a.PAGE_VERSION = QUICK_PAGE_VERSION
     errorlist, warninglist = a.check_version()
-    return errorlist, warninglist
+    return errorlist, warninglist, a.IGNORED_ERRORS
 
 
 def get_list_URL(category_list_config):
@@ -66,8 +66,7 @@ def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, c
     errors = []
     warnings = []
     for category_page in category_list_URL:
-        error, warning = clicker_generic_override_PAGE_ADDRESS(clicker_site_config, category_page)
-        #print category_page, error
+        error, warning, ignored_errors = clicker_generic_override_PAGE_ADDRESS(clicker_site_config, category_page)
         if error != []:
             errors.append(error)
         if warning != []:
@@ -83,12 +82,6 @@ def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, c
         print
         print
         errors_string = ''
-        ### TODO FIXME: make ignored_errors configurable via settings!
-        ignored_errors = [\
-            'ORA-01013: user requested cancel of current operation', \
-            'Internal Server Error', \
-            'Error 503 Service Unavailable' \
-        ]
         ignored_errors_string = ''
         for err in errors:
             try:
