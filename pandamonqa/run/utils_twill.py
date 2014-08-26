@@ -115,6 +115,9 @@ Django error:      %(error_title)s
             if error_description[:-1] in ignored_errors or error_description in ignored_errors:
                 ignored_errors_string += err_str
                 errors.pop(errors.index(err))
+            elif apache_error[:-1] in ignored_errors or apache_error in ignored_errors:
+                ignored_errors_string += err_str
+                errors.pop(errors.index(err))
             else:
                 errors_string += err_str
         ### print Ignored Errors
