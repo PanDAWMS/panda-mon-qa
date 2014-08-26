@@ -92,6 +92,7 @@ def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, c
                 page_version = page_result = page_dump = startT = endT = \
                 error_title = error_description, apache_error = ''
             err_str = """
+#####
 Page: %(page_address)s
 Time range (UTC):  from %(startT)s to %(endT)s
 Version string:    %(page_version)s
