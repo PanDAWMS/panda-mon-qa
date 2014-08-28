@@ -63,7 +63,7 @@ def get_list_URL(category_list_config):
 
 def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, category_list_config):
     category_list_URL = get_list_URL(category_list_config)
-    errors = []
+    errors = errors_tmp = []
     warnings = []
     for category_page in category_list_URL:
         error, warning, ignored_errors = clicker_generic_override_PAGE_ADDRESS(clicker_site_config, category_page)
@@ -121,6 +121,7 @@ Django error:      %(error_title)s
                 errors.pop(errors.index(err))
             else:
                 errors_string += err_str
+                errors_tmp.append(err)
         ### print Ignored Errors
         if len(ignored_errors_string):
             print "Ignored Errors:"  # , errors
@@ -133,7 +134,7 @@ Django error:      %(error_title)s
             print "Errors:"  # , errors
             print errors_string
 
-    return errors, warnings
+    return errors_tmp, warnings
 
 
 def clicker_generic_SITENAME_HP(SITENAME):
