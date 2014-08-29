@@ -71,7 +71,11 @@ def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, c
             errors.append(error)
         if warning != []:
             warnings.append(warning)
+        del error
+        del warning
     ### summary;
+    page_version = page_result = page_dump = startT = endT = \
+        error_title = error_description = apache_error = ''
     if len(warnings):
         print
         print
@@ -90,7 +94,7 @@ def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, c
             except:
                 page_address = err
                 page_version = page_result = page_dump = startT = endT = \
-                error_title = error_description, apache_error = ''
+                error_title = error_description = apache_error = ''
             err_str = """
 #####
 Page: %(page_address)s
@@ -135,6 +139,14 @@ Django error:      %(error_title)s
             print errors_string
 #    print '|errors_tmp|=', len(errors_tmp)
 #    print '|errors|=', len(errors)
+    ### cleanup
+    del errors
+    del errors_string
+    del ignored_errors
+    del ignored_errors_string
+    del apache_error
+    del error_description
+    del error_title
     return errors_tmp, warnings
 
 
@@ -147,6 +159,9 @@ def clicker_generic_SITENAME_WHOLE(SITENAME, SITEDOMAIN):
         '%s/settings-%s.cfg' % (DIR_SETTINGS_CLICKER, SITENAME), \
         '%s/URL-list/list-URLs_%s.cfg' % (DIR_SETTINGS_CLICKER, SITEDOMAIN))
     return errors, warnings
+#    return clicker_generic_override_PAGE_ADDRESS_loop_categories(\
+#        '%s/settings-%s.cfg' % (DIR_SETTINGS_CLICKER, SITENAME), \
+#        '%s/URL-list/list-URLs_%s.cfg' % (DIR_SETTINGS_CLICKER, SITEDOMAIN))
 
 
 def get_WEBSITE_BASE_URL(site):

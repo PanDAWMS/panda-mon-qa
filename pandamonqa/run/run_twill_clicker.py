@@ -93,9 +93,10 @@ def main():
                 errors_new, warnings_new = test_whole_site(arg, urlstring)
                 if len(errors_new):
                     errors.extend(errors_new)
+                del errors_new
                 if len(warnings_new):
                     warnings.extend(warnings_new)
-                ### TODO: print list of errors found here
+                del warnings_new
         except:
             traceback.format_exc()
             raise

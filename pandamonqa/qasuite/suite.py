@@ -118,6 +118,10 @@ class QASuite(object):
         description = BSXdocument.getItemList(xpath_description)
         if len(description) > 0:
             error_description = '%s' % description[0]
+        ### cleanup
+        del title
+        del description
+        del BSXdocument
         ### return error title and description
         return (error_title, error_description)
 
@@ -132,6 +136,9 @@ class QASuite(object):
         err = BSXdocument.getItemList(xpath_apache_error)
         if len(err) > 0:
             apache_error = '%s' % err[0]
+        ### cleanup
+        del err
+        del BSXdocument
         ### return error title and description
         return apache_error
 
@@ -179,6 +186,7 @@ class QASuite(object):
                 f.close()
                 error_title, error_description = self.get_error_from_django(page_html)
                 apache_error = self.get_error_apache(page_html)
+                del page_html
             except:
                 pass
             #raise twill.errors.TwillAssertionError(result)
@@ -203,6 +211,7 @@ class QASuite(object):
                     error_title, error_description = self.get_error_from_django(page_html)
                     if len(error_title) + len(error_description) < 10:
                         apache_error = self.get_error_apache(page_html)
+                    del page_html
                 except:
                     pass
                 list_errors.append((self.PAGE_ADDRESS, self.PAGE_VERSION, result, \
@@ -210,6 +219,10 @@ class QASuite(object):
                     apache_error))
 
         endtime = datetime.utcnow().strftime("%F.%H%M%S")
+
+        ### cleanup
+        twill.commands.reset_browser()
+
         if list_errors:
             printv('errors found: %s' % (list_errors))
         else:
