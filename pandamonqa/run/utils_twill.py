@@ -6,6 +6,7 @@ import os
 from qasuite.suite import QASuite
 from run.version import QUICK_PAGE_VERSION
 import run
+from datetime import datetime
 
 
 DIR_SETTINGS_CLICKER = os.path.abspath(\
@@ -140,8 +141,9 @@ Django error:      %(error_title)s
         if len(errors_string):
             print "Errors:"  # , errors
             print errors_string
-#    print '|errors_tmp|=', len(errors_tmp)
-#    print '|errors|=', len(errors)
+    print '|errors_tmp|=', len(errors_tmp)
+    print '|errors|=', len(errors)
+    print 'utcnow()=', datetime.utcnow().strftime("%F.%H%M%S")
     ### cleanup
     del errors
     del errors_string
