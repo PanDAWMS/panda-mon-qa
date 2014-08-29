@@ -71,6 +71,12 @@ This file contains several sections:
             PAGE_VERSION ... version string as a part of the page source, e.g. 0.0.1. As of 2014-06-11 we set it to the Google Analytics code.
             [BrowserInfo]
             PAGE_BROWSER ... User-Agent browser, e.g. Chrome or Firefox
+            [Debugging]
+            page_content_directory ... local directory to which page dump will be stored
+            page_url_prefix ... URL location to page_content_directory
+            [Errors]
+            ignored_errors ... list of error patterns to ignore (force the test to succeed when such error occurs)
+
 
 3. Site URLs list configuration. <br />
 e.g. in $WORKDIR/panda-mon-qa/pandamonqa/settings/URL-list/list-URLs\_bigpanda\_root.bigpanda.cern.ch.cfg <br />
