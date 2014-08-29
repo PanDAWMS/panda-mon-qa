@@ -63,8 +63,11 @@ def get_list_URL(category_list_config):
 
 def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, category_list_config):
     category_list_URL = get_list_URL(category_list_config)
-    errors = errors_tmp = []
+    errors = errors_tmp = ignored_errors = []
     warnings = []
+    errors_string = ignored_errors_string = apache_error = error_description = \
+        error_title = ''
+
     for category_page in category_list_URL:
         error, warning, ignored_errors = clicker_generic_override_PAGE_ADDRESS(clicker_site_config, category_page)
         if error != []:
