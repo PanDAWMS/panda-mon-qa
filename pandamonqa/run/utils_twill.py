@@ -133,8 +133,8 @@ Django error:      %(error_title)s
         if len(errors_string):
             print "Errors:"  # , errors
             print errors_string
-    print '|errors_tmp|=', len(errors_tmp)
-    print '|errors|=', len(errors)
+#    print '|errors_tmp|=', len(errors_tmp)
+#    print '|errors|=', len(errors)
     return errors_tmp, warnings
 
 
