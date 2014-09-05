@@ -110,6 +110,12 @@ Page dump:         %(page_dump)s""" % \
        'page_result': page_result, 'page_dump': page_dump, \
        'startT': startT, 'endT': endT \
         }
+            ### if we have both Django error and Apache error,
+            ###     and the title is the same for both,
+            ###     take into account only Django error
+            if apache_error == error_title \
+                and len(error_description) > 10:
+                apache_error = ''
             if len(apache_error) > 5:
                 err_str += """
 Apache error:      %(apache_error)s""" % {'apache_error': apache_error}
