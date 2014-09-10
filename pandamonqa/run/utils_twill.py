@@ -127,15 +127,19 @@ Django error:      %(error_title)s
                 err_str += """
 
 """
+            print '.|'
             if error_description[:-1] in ignored_errors or error_description in ignored_errors:
                 ignored_errors_string += err_str
                 errors.pop(errors.index(err))
+                print '..|'
             elif apache_error[:-1] in ignored_errors or apache_error in ignored_errors:
                 ignored_errors_string += err_str
                 errors.pop(errors.index(err))
+                print '...|'
             else:
                 errors_string += err_str
                 errors_tmp.append(err)
+                print '....|'
         ### print Ignored Errors
         if len(ignored_errors_string):
             print "Ignored Errors:"  # , errors
