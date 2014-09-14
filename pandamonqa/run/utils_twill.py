@@ -64,13 +64,22 @@ def get_list_URL(category_list_config):
 
 def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, category_list_config):
     category_list_URL = get_list_URL(category_list_config)
-    errors = errors_tmp = ignored_errors = []
+    errors = []
+    errors_tmp = []
+    ignored_errors = []
     warnings = []
-    errors_string = ignored_errors_string = apache_error = error_description = \
-        error_title = ''
+    errors_string = ''
+    ignored_errors_string = ''
+    apache_error = ''
+    error_description = error_title = ''
 
+    ### test all URLs in the category list
     for category_page in category_list_URL:
+        print 'DEBUG category_page=', category_page
         error, warning, ignored_errors = clicker_generic_override_PAGE_ADDRESS(clicker_site_config, category_page)
+        print 'DEBUG error=', error
+        print 'DEBUG warning=', warning
+        print 'DEBUG ignored_errors=', ignored_errors
         if error != []:
             errors.append(error)
         if warning != []:
@@ -78,8 +87,9 @@ def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, c
         del error
         del warning
     ### summary;
-    page_version = page_result = page_dump = startT = endT = \
-        error_title = error_description = apache_error = ''
+    page_version = page_result = page_dump = startT = endT = ''
+    apache_error = error_description = error_title = ''
+    print 'DEBUG |errors|=', len(errors)
     if len(warnings):
         print
         print
@@ -89,9 +99,12 @@ def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, c
         print
         print
         print
-        errors_string = ''
-        ignored_errors_string = ''
+#        errors_string = ignored_errors_string = ''
+        print 'DEBUG errors:', errors
+        print 'DEBUG ###'
         for err in errors:
+            print 'DEBUG ###'
+            print 'DEBUG err:', err
             try:
                 page_address, page_version, page_result, page_dump, startT, endT, \
                 error_title, error_description, apache_error = err[0]
@@ -127,19 +140,34 @@ Django error:      %(error_title)s
                 err_str += """
 
 """
-            print '.|'
+            print 'DEBUG error_description[:-1] ...%s...' % (error_description[:-1])
+            print 'DEBUG error_description      ...%s...' % (error_description)
+            print 'DEBUG apache_error[:-1]      ...%s...' % (apache_error[:-1])
+            print 'DEBUG apache_error           ...%s...' % (apache_error)
+            print 'DEBUG ignored_errors         ...%s...' % (ignored_errors)
+
+            print 'DEBUG .|'
             if error_description[:-1] in ignored_errors or error_description in ignored_errors:
                 ignored_errors_string += err_str
+                print 'DEBUG:150 |errors|=', len(errors)
                 errors.pop(errors.index(err))
-                print '..|'
+                print 'DEBUG:150 |errors|=', len(errors)
+                print 'DEBUG ..|'
             elif apache_error[:-1] in ignored_errors or apache_error in ignored_errors:
                 ignored_errors_string += err_str
+                print 'DEBUG:156 |errors|=', len(errors)
                 errors.pop(errors.index(err))
-                print '...|'
+                print 'DEBUG:156 |errors|=', len(errors)
+                print 'DEBUG ...|'
             else:
                 errors_string += err_str
+                print 'DEBUG:162 |errors|=', len(errors_tmp)
+                print 'DEBUG:162 |errors|=', len(errors)
                 errors_tmp.append(err)
-                print '....|'
+                print 'DEBUG:162 |errors|=', len(errors_tmp)
+                print 'DEBUG:162 |errors|=', len(errors)
+                print 'DEBUG ....|'
+            ### end of: for err in errors:
         ### print Ignored Errors
         if len(ignored_errors_string):
             print "Ignored Errors:"  # , errors
