@@ -106,9 +106,15 @@ def main():
 
     if len(errors):
         print u'Failed.'
+        print
+        print
+        print
         exit(1)
 
     print u'Done!'
+    print
+    print
+    print
     exit(0)
 
 

@@ -175,7 +175,12 @@ class QASuite(object):
             isOK = True
         except twill.errors.TwillAssertionError:
 #            result = 'Page status code ' + self.PAGE_ADDRESS + ' was ' + str(twill.commands.browser.get_code()) + '.'
-            result = 'HTTP status ' + str(twill.commands.browser.get_code())
+            result = 'HTTP status '
+            http_status = twill.commands.browser.get_code()
+            if http_status is None:
+                result += 'unknown'
+            else:
+                result += str(http_status)
             endtime = datetime.utcnow().strftime("%F.%H%M%S")
             ### save the page when returned code is other than 200
             try:
