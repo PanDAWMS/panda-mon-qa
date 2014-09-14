@@ -40,8 +40,13 @@ def clicker_generic(config_file):
     a.check_version()
 
 
+def get_ignored_errors(config_file):
+    a = QASuite()
+    a.configure(config_file)
+    return a.IGNORED_ERRORS
+
 def clicker_generic_override_PAGE_ADDRESS(config_file, page_address):
-    a=QASuite()
+    a = QASuite()
     a.configure(config_file)
     page_address_list = page_address.split(' ')
     if len(page_address_list) > 1:
@@ -52,7 +57,7 @@ def clicker_generic_override_PAGE_ADDRESS(config_file, page_address):
         if a.PAGE_VERSION == '':
             a.PAGE_VERSION = QUICK_PAGE_VERSION
     errorlist, warninglist = a.check_version()
-    return errorlist, warninglist, a.IGNORED_ERRORS
+    return errorlist, warninglist
 
 
 def get_list_URL(category_list_config):
@@ -64,9 +69,9 @@ def get_list_URL(category_list_config):
 
 def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, category_list_config):
     category_list_URL = get_list_URL(category_list_config)
+    ignored_errors = get_ignored_errors(clicker_site_config)
     errors = []
     errors_tmp = []
-    ignored_errors = []
     warnings = []
     errors_string = ''
     ignored_errors_string = ''
@@ -76,7 +81,7 @@ def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, c
     ### test all URLs in the category list
     for category_page in category_list_URL:
         print 'DEBUG category_page=', category_page
-        error, warning, ignored_errors = clicker_generic_override_PAGE_ADDRESS(clicker_site_config, category_page)
+        error, warning = clicker_generic_override_PAGE_ADDRESS(clicker_site_config, category_page)
         print 'DEBUG error=', error
         print 'DEBUG warning=', warning
         print 'DEBUG ignored_errors=', ignored_errors
@@ -168,6 +173,11 @@ Django error:      %(error_title)s
                 print 'DEBUG:162 |errors|=', len(errors)
                 print 'DEBUG ....|'
             ### end of: for err in errors:
+        #debug
+        print
+        print
+        print
+        #end:debug
         ### print Ignored Errors
         if len(ignored_errors_string):
             print "Ignored Errors:"  # , errors
