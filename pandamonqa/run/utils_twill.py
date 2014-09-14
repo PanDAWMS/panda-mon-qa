@@ -78,13 +78,13 @@ def clicker_generic_override_PAGE_ADDRESS_loop_categories(clicker_site_config, c
     apache_error = ''
     error_description = error_title = ''
 
+    print 'DEBUG ignored_errors=', ignored_errors
     ### test all URLs in the category list
     for category_page in category_list_URL:
         print 'DEBUG category_page=', category_page
         error, warning = clicker_generic_override_PAGE_ADDRESS(clicker_site_config, category_page)
         print 'DEBUG error=', error
         print 'DEBUG warning=', warning
-        print 'DEBUG ignored_errors=', ignored_errors
         if error != []:
             errors.append(error)
         if warning != []:
