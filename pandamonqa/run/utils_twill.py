@@ -189,7 +189,7 @@ def clicker_generic_SITENAME_WHOLE(SITENAME, SITEDOMAIN):
 def get_WEBSITE_BASE_URL(site):
     config_file = '%s/settings-qasuite-sites.cfg' % (DIR_SETTINGS_CLICKER)
     sites_config = configure_qasuite(config_file)
-    print sites_config
+    #print sites_config
     return sites_config[site]
 
 

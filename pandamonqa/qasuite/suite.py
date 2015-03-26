@@ -16,6 +16,7 @@ from BSXPath import BSXPathEvaluator, XPathResult, XPathExpression
 from BeautifulSoup import BeautifulSoup
 from datetime import datetime
 
+import mechanize
 
 VERB_SILENT = 0
 VERB_STANDARD = 1
@@ -142,8 +143,57 @@ class QASuite(object):
         ### return error title and description
         return apache_error
 
-
     def check_version(self):
+        list_errors=[]
+        list_warnings = []
+        if not len(self.PAGE_ADDRESS):
+            return ([], [])
+        starttime = datetime.utcnow().strftime("%F.%H%M%S")
+        # Browser
+        br = mechanize.Browser()
+        br.set_handle_robots(False)
+        try:
+            r = br.open(self.PAGE_ADDRESS)
+            http_status = r.code
+        except (mechanize.HTTPError,mechanize.URLError) as e:
+            http_status =  e.code
+        filebasename = filename = fileurl = ''
+        error_title = error_description = apache_error = 'n/a'
+        result = 'HTTP status '
+        if http_status is None:
+             result += 'unknown'
+        else:
+             result += str(http_status)
+        endtime = datetime.utcnow().strftime("%F.%H%M%S")
+
+        if http_status ==200:
+           list_errors=[]
+        elif http_status ==404:
+           list_errors.append('URL not found')
+        else:
+           filebasename, filename, fileurl = self.filenames()
+           twill.commands.go(self.PAGE_ADDRESS)
+           twill.commands.save_html(filename)
+           f = open(filename, 'r')
+           page_html = f.read()
+           f.close()
+           error_title, error_description = self.get_error_from_django(page_html)
+           apache_error = self.get_error_apache(page_html)
+           del page_html
+           endtime = datetime.utcnow().strftime("%F.%H%M%S")
+           list_errors.append((self.PAGE_ADDRESS, fileurl,result, starttime, endtime, error_title, error_description, \
+                   apache_error))
+
+        if list_errors:
+            printv('errors found: %s' % (list_errors))
+        else:
+            printv('OK (%s)' % (self.PAGE_ADDRESS))
+        printv('    start: %s' % (starttime))
+        printv('    end:   %s' % (endtime))
+        #printv(u'###### %s() OUT' % (inspect.stack()[0][3]), VERB_STANDARD)
+        return (list_errors, list_warnings)
+
+    def check_version_old(self):
         """
             Check the page source, look for the version number.
         """
